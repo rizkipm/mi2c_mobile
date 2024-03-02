@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:mi2c_mobile/screen_page/page_navigation_bar.dart';
 
 class PageBeranda extends StatelessWidget {
   const PageBeranda({super.key});
@@ -40,7 +41,7 @@ class PageBeranda extends StatelessWidget {
               MaterialButton(onPressed: (){
                 //tambahkan code toast
                 showToast(
-                  'This is normal',
+                  'Pindah ke Page Navigation Drawer',
                   context: context,
                   axis: Axis.horizontal,
                   alignment: Alignment.center,
@@ -48,9 +49,13 @@ class PageBeranda extends StatelessWidget {
                   toastHorizontalMargin: 20,
                   fullWidth: true,
                 );
+                //ini code untuk pindah page
+                Navigator.push(context, MaterialPageRoute(builder: (context)
+                  => PageNavigationBar()
+                ));
 
               },
-                child: Text('Explore Here',
+                child: Text('Page Navigation Utama',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 12
@@ -86,13 +91,31 @@ class PageBeranda extends StatelessWidget {
                 ),
                 color: Colors.green,
                 textColor: Colors.white,
+              ),
+
+              SizedBox(height: 10,),
+              MaterialButton(onPressed: (){
+                //tambahkan code toast
+                //context /this ==> memanggil class sendiri
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("ini adalah pesan snackbar"),
+                    backgroundColor: Colors.orange,
+                  ),
+                );
+              },
+                child: Text('Snackbar',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12
+                  ),
+                ),
+                color: Colors.green,
+                textColor: Colors.white,
               )
             ],
           ),
         ),
       ),
-
-
     );
   }
 }

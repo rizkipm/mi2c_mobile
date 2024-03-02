@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:mi2c_mobile/page_beranda.dart';
+import 'package:mi2c_mobile/screen_page/page_beranda.dart';
 
 void main() {
   runApp(const MyApp());
