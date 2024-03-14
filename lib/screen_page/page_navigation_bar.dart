@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mi2c_mobile/screen_page/page_column.dart';
+import 'package:mi2c_mobile/screen_page/page_passing_data.dart';
 
 class PageNavigationBar extends StatelessWidget {
   const PageNavigationBar({super.key});
@@ -40,18 +42,42 @@ class PageNavigationBar extends StatelessWidget {
               Divider(),
               ListTile(
                 title: Text("Column Widget"),
+                onTap: (){
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => PageColumn()));
+                },
               ),
               Divider(),
               ListTile(
                 title: Text("Row & Column"),
+                onTap: (){
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => PageColumnRow()));
+                },
               ),
               Divider(),
               ListTile(
                 title: Text("List Horizontal"),
+                onTap: (){
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => PageListHorizontal()));
+                },
               ),
               Divider(),
               ListTile(
                 title: Text("Passing Data"),
+                onTap: (){
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => PagePassingData()));
+                },
+              ),
+              Divider(),
+              ListTile(
+                title: Text("Login Page"),
+                onTap: (){
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => PageLogin()));
+                },
               ),
             ],
           ),

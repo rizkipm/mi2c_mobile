@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const PageBeranda(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
