@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:mi2c_mobile/screen_page/page_bottom_navigation.dart';
+import 'package:mi2c_mobile/screen_page/page_list_users.dart';
 import 'package:mi2c_mobile/screen_page/page_navigation_bar.dart';
+import 'package:mi2c_mobile/screen_page/page_search_list.dart';
 
 class PageBeranda extends StatelessWidget {
   const PageBeranda({super.key});
@@ -122,6 +124,23 @@ class PageBeranda extends StatelessWidget {
                 ));
               },
                 child: Text('Buttom Navigation Bar',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12
+                  ),
+                ),
+                color: Colors.green,
+                textColor: Colors.white,
+              ),
+              SizedBox(height: 5,),
+              MaterialButton(onPressed: (){
+                //tambahkan code toast
+                //ini code untuk pindah page
+                Navigator.push(context, MaterialPageRoute(builder: (context)
+                => PageListUsers()
+                ));
+              },
+                child: Text('Page List Users',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 12
