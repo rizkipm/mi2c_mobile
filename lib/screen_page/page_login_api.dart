@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:mi2c_mobile/screen_page/page_login_api.dart';
+import 'package:mi2c_mobile/screen_page/page_register_api.dart';
 
-class PageRegisterApi extends StatefulWidget {
-  const PageRegisterApi({super.key});
+class PageLoginApi extends StatefulWidget {
+  const PageLoginApi({super.key});
 
   @override
-  State<PageRegisterApi> createState() => _PageRegisterApiState();
+  State<PageLoginApi> createState() => _PageLoginApiState();
 }
 
-class _PageRegisterApiState extends State<PageRegisterApi> {
-
+class _PageLoginApiState extends State<PageLoginApi> {
   //untuk mendapatkan value dari text field
   TextEditingController txtUsername = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
-  TextEditingController txtFullName = TextEditingController();
-  TextEditingController txtEmail = TextEditingController();
+
 
   //validasi form
   GlobalKey<FormState> keyForm= GlobalKey<FormState>();
@@ -24,7 +22,7 @@ class _PageRegisterApiState extends State<PageRegisterApi> {
     return  Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.cyan,
-        title: Text('Form  Register'),
+        title: Text('Form  Login'),
       ),
 
       body: Form(
@@ -50,33 +48,8 @@ class _PageRegisterApiState extends State<PageRegisterApi> {
                   ),
                 ),
                 SizedBox(height: 8,),
-                TextFormField(
-                  //validasi kosong
-                  validator: (val){
-                    return val!.isEmpty ? "tidak boleh kosong " : null;
-                  },
-                  controller: txtFullName,
-                  decoration: InputDecoration(
-                      hintText: 'Input Full Name',
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)
-                      )
-                  ),
-                ),
-                SizedBox(height: 8,),
-                TextFormField(
-                  //validasi kosong
-                  validator: (val){
-                    return val!.isEmpty ? "tidak boleh kosong " : null;
-                  },
-                  controller: txtEmail,
-                  decoration: InputDecoration(
-                      hintText: 'Input Email',
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)
-                      )
-                  ),
-                ),
+
+
                 SizedBox(height: 8,),
                 TextFormField(
                   validator: (val){
@@ -102,7 +75,7 @@ class _PageRegisterApiState extends State<PageRegisterApi> {
                     // print('Hasil login: ${username} dan pwd = ${pwd}');
                   });
                 },
-                  child: Text('Register'),
+                  child: Text('Login'),
                   color: Colors.green,
                   textColor: Colors.white,
                 )
@@ -115,15 +88,15 @@ class _PageRegisterApiState extends State<PageRegisterApi> {
         padding: EdgeInsets.all(10),
         child: MaterialButton(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-            side: const BorderSide(width: 1, color: Colors.green)
+              borderRadius: BorderRadius.circular(10),
+              side: const BorderSide(width: 1, color: Colors.green)
           ),
           onPressed: (){
             Navigator.push(context, MaterialPageRoute(builder: (context)
-            => PageLoginApi()
+              => PageRegisterApi()
             ));
           },
-          child: Text('Anda sudah punya account? Silkan Login'),
+          child: Text('Anda belum punya account? Silkan Register'),
         ),
       ),
     );
