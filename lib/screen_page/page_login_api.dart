@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mi2c_mobile/model/model_login.dart';
+import 'package:mi2c_mobile/screen_page/page_list_berita.dart';
 import 'package:mi2c_mobile/screen_page/page_register_api.dart';
+import 'package:http/http.dart' as http;
+import 'package:mi2c_mobile/utils/session_manager.dart';
 
 class PageLoginApi extends StatefulWidget {
   const PageLoginApi({super.key});
@@ -12,6 +16,59 @@ class _PageLoginApiState extends State<PageLoginApi> {
   //untuk mendapatkan value dari text field
   TextEditingController txtUsername = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
+
+  //TASK : silahkan hubungan yg page login dengan api
+  //kalau berhasil login pindah ke page list berita
+  bool isLoading = false;
+  Future<ModelLogin?> loginAccount() async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      http.Response res = await http.post(
+          Uri.parse('http://192.168.1.4:8080/beritaDb/login.php'),
+          body: {
+            "username": txtUsername.text,
+            "password": txtPassword.text,
+
+          });
+
+      ModelLogin data = modelLoginFromJson(res.body);
+      //cek kondisi respon
+      if (data.value == 1) {
+        setState(() {
+          isLoading = false;
+          //untuk simpan sesi
+          session.saveSession(data.value ?? 0, data.id ?? "", data.username ?? "");
+
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('${data.message}')));
+          //kondisi berhasil dan pindah ke page login
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => PageListBerit()),
+                  (route) => false);
+        });
+        //kondisi email sudah ada
+      } else if (data.value == 2) {
+        setState(() {
+          isLoading = false;
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('${data.message}')));
+        });
+        //kondisi gagal daftar
+      } else {
+        isLoading = false;
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('${data.message}')));
+      }
+    } catch (e) {
+      isLoading = false;
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.toString())));
+    }
+  }
+
 
 
   //validasi form
@@ -66,18 +123,23 @@ class _PageLoginApiState extends State<PageLoginApi> {
                 ),
 
                 SizedBox(height: 15,),
-                MaterialButton(onPressed: (){
-                  //cara get data dari text form field
-                  setState(() {
-                    // String username = txtUsername.text;
-                    // String pwd = txtPassword.text;
-                    //
-                    // print('Hasil login: ${username} dan pwd = ${pwd}');
-                  });
-                },
-                  child: Text('Login'),
-                  color: Colors.green,
-                  textColor: Colors.white,
+                Center(
+                  child: isLoading
+                      ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                      : MaterialButton(
+                    minWidth: 150,
+                    height: 45,
+                    onPressed: () {
+                      if (keyForm.currentState?.validate() == true) {
+                        loginAccount();
+                      }
+                    },
+                    child: Text('Login'),
+                    color: Colors.blue,
+                    textColor: Colors.white,
+                  ),
                 )
               ],
             ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mi2c_mobile/model/model_berita.dart';
 import 'package:http/http.dart' as http;
+import 'package:mi2c_mobile/screen_page/page_login_api.dart';
+import 'package:mi2c_mobile/utils/session_manager.dart';
 
 class PageListBerit extends StatefulWidget {
   const PageListBerit({super.key});
@@ -10,12 +12,14 @@ class PageListBerit extends StatefulWidget {
 }
 
 class _PageListBeritState extends State<PageListBerit> {
+
+
   //method untuk get berita
   Future<List<Datum>?> getBerita() async {
     try {
       //berhasil
       http.Response response = await http
-          .get(Uri.parse('http://10.208.100.222:8080/beritaDb/getBerita.php'));
+          .get(Uri.parse('http://192.168.1.4:8080/beritaDb/getBerita.php'));
 
       return modelBeritaFromJson(response.body).data;
       //kondisi gagal untuk mendapatkan respon api
@@ -24,10 +28,48 @@ class _PageListBeritState extends State<PageListBerit> {
           .showSnackBar(SnackBar(content: Text(e.toString())));
     }
   }
+  String? userName;
+
+  //untuk mendapatkan data sesi
+  Future getDataSession() async{
+    await Future.delayed(const Duration(seconds: 5), (){
+      session.getSession().then((value) {
+        print('data sesi .. ' + value.toString());
+        userName = session.userName;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    session.getSession();
+    getDataSession();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Aplikasi Berita'),
+        backgroundColor: Colors.cyan,
+        actions: [
+          TextButton(onPressed: (){}, child: Text('Hi .. ${session.userName}')),
+          //logout
+          IconButton(onPressed: (){
+            //clear session
+            setState(() {
+              session.clearSession();
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)
+                => PageLoginApi()
+              ),
+                      (route) => false);
+            });
+          },
+              icon: Icon(Icons.exit_to_app), tooltip: 'Logout',)
+        ],
+      ),
       body: FutureBuilder(
         future: getBerita(),
         builder: (BuildContext context, AsyncSnapshot<List<Datum>?> snapshot) {
